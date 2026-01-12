@@ -1,0 +1,124 @@
+Act as a senior full-stack web developer and UI/UX designer.
+
+Build a PROFESSIONAL, production-quality web application called
+“Family Home Expense Tracker”.
+
+⚠️ This must NOT look like a basic demo or tutorial app.
+It should look like a modern fintech / budgeting product.
+
+----------------------------------
+CORE FUNCTIONAL REQUIREMENTS
+----------------------------------
+
+1. Custom Monthly Cycle
+- Expense cycle is from 11th of current month to 10th of next month
+- Automatically detect current cycle
+- Carry forward remaining balance to next cycle
+
+2. Family Fund System
+- Multiple family members
+- Each member has:
+  - Name
+  - Monthly contribution amount
+- Features:
+  - Add member
+  - Edit member
+  - Delete member
+  - Auto-recalculate total monthly fund when members change
+
+3. Expense Management
+- Add daily expense with:
+  - Amount
+  - Category / Item (supports Marathi Unicode text)
+- Edit existing expense
+- Delete expense
+- Auto update:
+  - Total spent
+  - Remaining balance
+- Persistent storage (IndexedDB or LocalStorage – GitHub Pages compatible)
+
+4. Dashboard & Reports
+- Show:
+  - Total Fund
+  - Total Spent
+  - Balance Remaining
+- Category-wise totals (grouped view)
+- Overspend warning when 90% budget is used
+- Export monthly expenses to Excel (CSV)
+- Structure code so PDF export can be added later
+
+----------------------------------
+UI / UX REQUIREMENTS (VERY IMPORTANT)
+----------------------------------
+
+Design must be:
+- Modern
+- Clean
+- Premium looking
+- Mobile-responsive
+- Card-based layout
+
+UI expectations:
+- Soft shadows
+- Rounded corners
+- Smooth animations (hover, add, delete)
+- Clear typography hierarchy
+- Color palette similar to finance apps
+- Dashboard cards with icons
+- No plain HTML look
+
+Use:
+- CSS Flexbox / Grid
+- Subtle transitions
+- Professional spacing
+- Sticky header with cycle info
+- Warning banners for overspend
+
+----------------------------------
+TECH STACK CONSTRAINTS
+----------------------------------
+
+- Pure HTML, CSS, JavaScript (no backend)
+- Must work on GitHub Pages
+- No external paid APIs
+- Use IndexedDB for structured data
+- Clean, modular JS (separate logic for members, expenses, dashboard)
+
+----------------------------------
+DELIVERABLES
+----------------------------------
+
+1. index.html
+- Semantic, clean structure
+- Sections for dashboard, expenses, members, reports
+
+2. style.css
+- Professional theme
+- Animations
+- Responsive layout
+
+3. app.js
+- Well-structured
+- Commented
+- Easy to extend later
+
+----------------------------------
+IMPORTANT NOTES
+----------------------------------
+
+- Do NOT make it look like a beginner project
+- Think like you are building a real family finance product
+- Focus equally on UI polish and logic correctness
+- Assume end-users are non-technical family members
+- Marathi text input should work naturally via system keyboard
+
+----------------------------------
+OUTPUT FORMAT
+----------------------------------
+
+Provide:
+- Full code for index.html
+- Full code for style.css
+- Full code for app.js
+
+Code must be ready to run immediately in Replit or GitHub Pages.
