@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addExpense } from "@/db/indexedDb";
+import { updateExpense } from "@/db/indexedDb";
 import {
   Dialog,
   DialogContent,
@@ -11,9 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
-/* --------------------------
-   Cycle Helper (11 → 10)
--------------------------- */
+/* -------- Cycle Helper -------- */
 function getCurrentCycle(today = new Date()) {
   const y = today.getFullYear();
   const m = today.getMonth();
@@ -42,30 +40,28 @@ function getCurrentCycle(today = new Date()) {
 }
 
 interface Props {
-  onAdded?: () => void;
+  expense: any;
+  onUpdated: () => void;
+  disabled?: boolean;
 }
 
-export function AddExpenseDialog({ onAdded }: Props) {
+export function EditExpenseDialog({
+  expense,
+  onUpdated,
+  disabled,
+}: Props) {
   const [open, setOpen] = useState(false);
-  const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState(String(expense.amount));
+  const [description, setDescription] = useState(
+    expense.description
+  );
+  const [date, setDate] = useState(expense.date);
 
   const cycle = getCurrentCycle();
-  const [date, setDate] = useState(cycle.startStr);
-
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!amount || !description || !date) {
-      toast({
-        variant: "destructive",
-        title: "Missing fields",
-        description: "Please fill all fields",
-      });
-      return;
-    }
 
     const selected = new Date(date);
     selected.setHours(12, 0, 0, 0);
@@ -80,47 +76,41 @@ export function AddExpenseDialog({ onAdded }: Props) {
       return;
     }
 
-    try {
-      await addExpense({
-        amount: Number(amount),
-        description,
-        date, // stored as YYYY-MM-DD (timezone safe)
-      });
+    await updateExpense({
+      ...expense,
+      amount: Number(amount),
+      description,
+      date,
+    });
 
-      toast({
-        title: "Expense Added",
-        description: "Expense saved successfully",
-      });
+    toast({
+      title: "Expense Updated",
+      description: "Changes saved successfully",
+    });
 
-      setAmount("");
-      setDescription("");
-      setDate(cycle.startStr);
-      setOpen(false);
-      onAdded?.();
-    } catch {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to create expense",
-      });
-    }
+    setOpen(false);
+    onUpdated();
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button onClick={() => setOpen(true)}>+ Add Expense</Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        disabled={disabled}
+        onClick={() => setOpen(true)}
+        className="h-8 w-8"
+      >
+        ✏️
+      </Button>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Expense</DialogTitle>
-          <p className="text-sm text-muted-foreground">
-            Description supports Marathi input.  
-            Cycle: {cycle.startStr} → {cycle.endStr}
-          </p>
+          <DialogTitle>Edit Expense</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
-          <div className="space-y-1">
+        <form onSubmit={handleSave} className="space-y-4 pt-4">
+          <div>
             <Label>Amount (₹)</Label>
             <Input
               type="number"
@@ -130,17 +120,16 @@ export function AddExpenseDialog({ onAdded }: Props) {
             />
           </div>
 
-          <div className="space-y-1">
+          <div>
             <Label>Description</Label>
             <Input
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="भाजी, दूध, लाईट बिल…"
               required
             />
           </div>
 
-          <div className="space-y-1">
+          <div>
             <Label>Date</Label>
             <Input
               type="date"
@@ -153,7 +142,7 @@ export function AddExpenseDialog({ onAdded }: Props) {
           </div>
 
           <Button type="submit" className="w-full">
-            Save Expense
+            Save Changes
           </Button>
         </form>
       </DialogContent>

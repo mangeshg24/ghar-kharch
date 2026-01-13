@@ -66,7 +66,7 @@ export function Sidebar() {
           {/* Footer Info */}
           <div className="mt-auto pt-6 border-t border-border">
             <p className="text-xs text-muted-foreground text-center">
-              Managed with ❤️ for Family
+              Developed by Mangeshh Gaykar
             </p>
           </div>
         </div>
