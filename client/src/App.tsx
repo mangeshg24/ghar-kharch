@@ -1,7 +1,7 @@
 import { Router, Route, Switch } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 
-import Sidebar from "@/components/Sidebar";
+import { Sidebar } from "@/components/Sidebar";
 import Dashboard from "@/pages/Dashboard";
 import Expenses from "@/pages/Expenses";
 import Members from "@/pages/Members";
@@ -12,10 +12,10 @@ export default function App() {
     <Router hook={useHashLocation}>
       {/* App Shell */}
       <div className="flex min-h-screen bg-gray-50">
-        {/* LEFT: Sidebar (always visible) */}
+        {/* Sidebar always visible */}
         <Sidebar />
 
-        {/* RIGHT: Page Content */}
+        {/* Page Content */}
         <main className="flex-1 overflow-y-auto">
           <Switch>
             <Route path="/">
@@ -34,7 +34,7 @@ export default function App() {
               <Reports />
             </Route>
 
-            {/* HARD FALLBACK – never show 404 */}
+            {/* Hard fallback – never show 404 */}
             <Route>
               <Dashboard />
             </Route>
