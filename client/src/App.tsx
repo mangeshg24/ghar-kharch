@@ -1,44 +1,46 @@
 import { Router, Route, Switch } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 
+import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/pages/Dashboard";
 import Expenses from "@/pages/Expenses";
 import Members from "@/pages/Members";
 import Reports from "@/pages/Reports";
 
-/**
- * FINAL STABLE APP ROUTER
- * - Hash routing (GitHub Pages safe)
- * - No Navigate
- * - No internal 404
- * - Sidebar/pages stay mounted correctly
- */
 export default function App() {
   return (
     <Router hook={useHashLocation}>
-      <Switch>
-        {/* Primary routes */}
-        <Route path="/">
-          <Dashboard />
-        </Route>
+      {/* App Shell */}
+      <div className="flex min-h-screen bg-gray-50">
+        {/* LEFT: Sidebar (always visible) */}
+        <Sidebar />
 
-        <Route path="/expenses">
-          <Expenses />
-        </Route>
+        {/* RIGHT: Page Content */}
+        <main className="flex-1 overflow-y-auto">
+          <Switch>
+            <Route path="/">
+              <Dashboard />
+            </Route>
 
-        <Route path="/members">
-          <Members />
-        </Route>
+            <Route path="/expenses">
+              <Expenses />
+            </Route>
 
-        <Route path="/reports">
-          <Reports />
-        </Route>
+            <Route path="/members">
+              <Members />
+            </Route>
 
-        {/* HARD FALLBACK — never show app 404 */}
-        <Route>
-          <Dashboard />
-        </Route>
-      </Switch>
+            <Route path="/reports">
+              <Reports />
+            </Route>
+
+            {/* HARD FALLBACK – never show 404 */}
+            <Route>
+              <Dashboard />
+            </Route>
+          </Switch>
+        </main>
+      </div>
     </Router>
   );
 }
